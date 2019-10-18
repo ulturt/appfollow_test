@@ -30,4 +30,8 @@ def get_posts():
         post_title = post_link.text
         post_url = post_link.attrib['href']
 
-        yield post_id, post_title, post_url
+        yield {
+            'post_id': post_id,
+            'title': post_title,
+            'url': post_url,
+        }
