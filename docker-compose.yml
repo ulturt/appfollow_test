@@ -5,10 +5,16 @@ services:
     ports:
       - '27017:27017'
 
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - "15672:15672"
+
   scraper:
     build: ./scraper
     depends_on:
       - db
+      - rabbitmq
 
   api:
     build: ./api
@@ -17,3 +23,4 @@ services:
     depends_on:
       - db
       - scraper
+      - rabbitmq

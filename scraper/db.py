@@ -2,7 +2,7 @@ import datetime
 
 from pymongo import MongoClient
 
-client = MongoClient('db')
+client = MongoClient('db', 27017)
 db = client.database
 posts = db.posts
 

@@ -1,3 +1,5 @@
 DEFAULT_OFFSET = 0
 DEFAULT_LIMIT = 5
 MAX_LIMIT = 100
+AMQP_URI = "amqp://guest:guest@rabbitmq"
+NAMEKO_CONFIG = {'AMQP_URI': AMQP_URI}

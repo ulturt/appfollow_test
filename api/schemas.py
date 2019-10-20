@@ -22,6 +22,7 @@ order_choices = list(f'{a}{b}' for a, b in itertools.product(['', '-'], output_f
 
 
 class PostsInputParamsSchema(Schema):
+    action = fields.Str(validate=validate.OneOf(['parse']))
     order = fields.Method(deserialize='load_order', validate=validate.OneOf(order_choices))
     offset = fields.Int(default=DEFAULT_OFFSET, validate=validate.Range(min=0))
     limit = fields.Int(default=DEFAULT_LIMIT, validate=validate.Range(min=0, max=MAX_LIMIT))
