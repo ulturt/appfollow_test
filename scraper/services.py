@@ -1,7 +1,7 @@
 from nameko.rpc import rpc
 from nameko.timer import timer
 
-from main import add_posts_into_db
+from parser import add_posts_into_db
 from settings import SCRAPING_INTERVAL
 
 
