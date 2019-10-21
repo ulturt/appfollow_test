@@ -6,7 +6,6 @@ from settings import DEFAULT_OFFSET, DEFAULT_LIMIT, MAX_LIMIT
 
 
 class PostSchema(Schema):
-    # todo: use id instead external_id
     external_id = fields.Int(data_key='id')
     title = fields.Str()
     url = fields.URL()
@@ -16,9 +15,14 @@ class PostSchema(Schema):
 PostsSchema = PostSchema(many=True)
 
 
-# todo: get from PostSchema
-output_fields = ['id', 'title', 'url', 'created']
-order_choices = list(f'{a}{b}' for a, b in itertools.product(['', '-'], output_fields))
+output_fields = [
+    field.data_key or field.name
+    for field in PostsSchema.fields.values()
+]
+order_choices = list(
+    f'{a}{b}'
+    for a, b in itertools.product(['', '-'], output_fields)
+)
 
 
 class PostsInputParamsSchema(Schema):

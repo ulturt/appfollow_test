@@ -1,5 +1,6 @@
 from flask import Flask, jsonify
 from flask import request
+from marshmallow import ValidationError
 from nameko.standalone.rpc import ClusterRpcProxy
 
 from db import Post
@@ -11,7 +12,16 @@ app = Flask(__name__)
 
 @app.route('/posts')
 def posts():
-    args = RequestArgsSchema.load(request.args)
+    try:
+        args = RequestArgsSchema.load(request.args)
+    except ValidationError as err:
+        return (
+            jsonify({
+                'error': 'BAD_REQUEST',
+                'message': err.messages,
+            }),
+            400,
+        )
     if args.get('action'):
         with ClusterRpcProxy(NAMEKO_CONFIG) as rpc:
             result = rpc.scraper_service.parse()
@@ -26,4 +36,4 @@ def posts():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0')
